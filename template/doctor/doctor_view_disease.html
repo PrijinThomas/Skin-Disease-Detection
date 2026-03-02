@@ -1,0 +1,90 @@
+{% extends 'doctor/doctorlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="col-12">
+    <div class="card custom-disease-card">
+        <div class="card-body">
+
+            <div class="d-md-flex align-items-center mb-3">
+                <div>
+                    <h4 class="card-title fw-bold">Disease Information</h4>
+                </div>
+            </div>
+
+            <div class="table-responsive mt-4">
+                <table class="table table-hover align-middle custom-modern-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Disease</th>
+                            <th>Description</th>
+                            <th>Symptoms</th>
+                            <th>Precautions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for d in dlist %}
+                        <tr>
+
+                            <!-- ID -->
+                            <td>
+                                <span class="badge bg-light text-dark">{{ d.disease_id }}</span>
+                            </td>
+
+                            <!-- Disease Name -->
+                            <td>
+                                <span class="badge bg-light text-dark fw-bold">{{ d.disease_name }}</span>
+                            </td>
+
+                            <!-- Description -->
+                            <td>
+                                <p class="mb-0 text-muted small" style="max-width: 250px;">{{ d.description }}</p>
+                            </td>
+
+                            <!-- Symptoms -->
+                            <td>
+                                <p class="mb-0 text-muted small" style="max-width: 200px;">{{ d.symptoms }}</p>
+                            </td>
+
+                            <!-- Precautions -->
+                            <td>
+                                <p class="mb-0 text-muted small" style="max-width: 200px;">{{ d.precautions }}</p>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .custom-disease-card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+    }
+
+    .custom-modern-table thead th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e9ecef;
+        padding: 12px 16px;
+    }
+
+    .custom-modern-table tbody td {
+        padding: 16px;
+        border-bottom: 1px solid #f1f3f5;
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,385 @@
+{% extends 'patient/patientlayout.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  .skin-gallery-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: #fff;
+  }
+
+  .skin-gallery-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .image-container {
+    position: relative;
+    overflow: hidden;
+    height: 220px;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .skin-gallery-card:hover .image-container img {
+    transform: scale(1.1);
+  }
+
+  .diagnosis-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.85);
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+  }
+
+  .confidence-ring {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: var(--bs-primary);
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-meta {
+    padding: 20px;
+    background: #fff;
+  }
+
+  .date-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+
+  .diagnosis-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .action-row {
+    display: grid;
+    grid-template-columns: 1fr 40px;
+    gap: 10px;
+  }
+
+  .btn-guidance {
+    background: #f1f5f9;
+    color: #475569;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 10px;
+    transition: all 0.2s;
+  }
+
+  .btn-guidance:hover {
+    background: var(--bs-primary);
+    color: white;
+  }
+
+  .btn-delete-icon {
+    background: #fee2e2;
+    color: #ef4444;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-delete-icon:hover {
+    background: #ef4444;
+    color: white;
+  }
+
+  /* Severity Colors */
+  .severity-danger .diagnosis-badge {
+    color: #ef4444;
+    border: 1px solid #fecaca;
+  }
+
+  .severity-warning .diagnosis-badge {
+    color: #f59e0b;
+    border: 1px solid #fef3c7;
+  }
+
+  .severity-safe .diagnosis-badge {
+    color: #10b981;
+    border: 1px solid #d1fae5;
+  }
+
+  .severity-primary .diagnosis-badge {
+    color: #3b82f6;
+    border: 1px solid #dbeafe;
+  }
+
+  /* Modal Styling */
+  .modal-content-glass {
+    border-radius: 24px;
+    border: none;
+    overflow: hidden;
+  }
+
+  .modal-header-premium {
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: white;
+    padding: 25px;
+  }
+</style>
+
+<div class="container-fluid py-4">
+
+  <!-- Hero Header -->
+  <div class="row mb-5 align-items-center">
+    <div class="col-md-8">
+      <h3 class="fw-bolder text-dark mb-1">Diagnostic <span class="text-primary">Archive</span></h3>
+      <p class="text-muted">Review your skin health history and AI-driven analysis records.</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+      <a href="{% url 'add_skin_image' %}" class="btn btn-primary rounded-pill px-4 shadow-sm">
+        <i class="ti ti-plus me-2"></i>New Analysis
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    {% for s in slist %}
+    <div class="col-sm-6 col-lg-4 col-xl-3">
+
+      {% with d=s.diagnosis|lower %}
+      <div class="card skin-gallery-card shadow-sm 
+                {% if 'melanoma' in d or 'carcinoma' in d %}severity-danger
+                {% elif 'keratoses' in d %}severity-warning
+                {% elif 'nevi' in d or 'benign' in d %}severity-safe
+                {% else %}severity-primary{% endif %}">
+
+        <div class="image-container">
+          <!-- Badges -->
+          <div class="diagnosis-badge">
+            <i class="ti ti-shield-check me-1"></i>
+            {{ s.diagnosis|default:"Analyzing..." }}
+          </div>
+
+          {% if s.confidance_score %}
+          <div class="confidence-ring">
+            {{ s.confidance_score|floatformat:0 }}%
+          </div>
+          {% endif %}
+
+          <img src="/media/{{ s.image_path }}" alt="Scan Analysis">
+        </div>
+
+        <div class="card-meta">
+          <div class="date-label">
+            <i class="ti ti-calendar-event"></i>
+            {{ s.uploaded_date|date:"M d, Y" }}
+          </div>
+
+          <h5 class="diagnosis-title">{{ s.diagnosis|default:"Pending Results" }}</h5>
+
+          <div class="action-row">
+            <button class="btn-guidance" data-bs-toggle="modal" data-bs-target="#guidanceModal{{ s.skin_image_id }}">
+              <i class="ti ti-report-medical me-1"></i> View Analysis
+            </button>
+            <a href="{% url 'delete_skin_image' s.skin_image_id %}" class="btn-delete-icon"
+              onclick="return confirm('Delete this diagnostic record?')">
+              <i class="ti ti-trash"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Modal: Clinical Report Style -->
+      <div class="modal fade" id="guidanceModal{{ s.skin_image_id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+
+            <!-- Report Header -->
+            <div class="report-header p-4 text-white d-flex justify-content-between align-items-center
+                {% if 'melanoma' in d or 'carcinoma' in d %}bg-danger
+                {% elif 'keratoses' in d %}bg-warning
+                {% elif 'nevi' in d or 'benign' in d %}bg-success
+                {% else %}bg-primary{% endif %}">
+              <div class="d-flex align-items-center gap-3">
+                <div class="bg-white rounded-circle p-2 d-flex align-items-center justify-content-center"
+                  style="width: 45px; height: 45px;">
+                  <i class="ti ti-report-medical fs-5 
+                            {% if 'melanoma' in d or 'carcinoma' in d %}text-danger
+                            {% elif 'keratoses' in d %}text-warning
+                            {% elif 'nevi' in d or 'benign' in d %}text-success
+                            {% else %}text-primary{% endif %}"></i>
+                </div>
+                <div>
+                  <h5 class="mb-0 fw-bold text-white">Clinical Diagnostic Report</h5>
+                  <small class="opacity-75">Analysis Case ID: #SKIN-{{ s.skin_image_id|stringformat:"04d" }}</small>
+                </div>
+              </div>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body p-0">
+              <div class="row g-0">
+                <!-- Left: Clinical View -->
+                <div class="col-md-5 bg-light p-4 border-end">
+                  <div class="mb-4">
+                    <label class="small fw-bold text-muted text-uppercase mb-2 d-block">Clinical Specimen</label>
+                    <div class="rounded-4 overflow-hidden shadow-sm">
+                      <img src="/media/{{ s.image_path }}" class="img-fluid w-100"
+                        style="aspect-ratio: 1/1; object-fit: cover;" alt="Specimen">
+                    </div>
+                  </div>
+
+                  <div class="p-3 bg-white rounded-4 shadow-sm border">
+                    <label class="small fw-bold text-muted text-uppercase mb-2 d-block">AI Diagnostic Metric</label>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                      <span class="fw-bold text-dark">Confidence Level</span>
+                      <span class="badge bg-primary-subtle text-primary rounded-pill">{{ s.confidance_score }}%</span>
+                    </div>
+                    <div class="progress rounded-pill bg-light" style="height: 8px;">
+                      <div class="progress-bar progress-bar-striped progress-bar-animated"
+                        style="width: {{ s.confidance_score }}%"></div>
+                    </div>
+                    <small class="text-muted mt-2 d-block" style="font-size: 0.65rem;">Calculated via MobileNetV2 Neural
+                      Network</small>
+                  </div>
+                </div>
+
+                <!-- Right: Medical Guidance -->
+                <div class="col-md-7 p-4">
+                  <div class="mb-4 pb-3 border-bottom">
+                    <label class="small fw-bold text-muted text-uppercase mb-1 d-block">Primary Diagnosis</label>
+                    <h2 class="fw-black text-dark mb-0 d-flex align-items-center gap-2">
+                      {{ s.diagnosis }}
+                      {% if 'melanoma' in d or 'carcinoma' in d %}
+                      <span class="badge bg-danger rounded-pill fs-2 px-3 py-2" style="font-size: 0.7rem;">High
+                        Attention</span>
+                      {% elif 'nevi' in d or 'benign' in d %}
+                      <span class="badge bg-success rounded-pill fs-2 px-3 py-2" style="font-size: 0.7rem;">Likely
+                        Benign</span>
+                      {% endif %}
+                    </h2>
+                  </div>
+
+                  <div class="vstack gap-4">
+                    <section>
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div
+                          class="bg-primary-subtle rounded-circle p-1 d-flex align-items-center justify-content-center"
+                          style="width: 24px; height: 24px;">
+                          <i class="ti ti-notes text-primary-emphasis" style="font-size: 0.8rem;"></i>
+                        </div>
+                        <h6 class="fw-bold mb-0 text-dark">Clinical Overview</h6>
+                      </div>
+                      <p class="text-secondary small leading-relaxed mb-0">
+                        {{ s.description|default:"Medical overview is currently being updated in our clinical database."}}</p>
+                    </section>
+
+                    <section>
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div
+                          class="bg-warning-subtle rounded-circle p-1 d-flex align-items-center justify-content-center"
+                          style="width: 24px; height: 24px;">
+                          <i class="ti ti-list-search text-warning-emphasis" style="font-size: 0.8rem;"></i>
+                        </div>
+                        <h6 class="fw-bold mb-0 text-dark">Observed Symptoms</h6>
+                      </div>
+                      <p class="text-secondary small leading-relaxed mb-0">
+                        {{ s.symptoms|default:"Specific symptoms forthis classification are not yet populated." }}</p>
+                    </section>
+
+                    <section class="p-3 bg-light rounded-4 border">
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div
+                          class="bg-success-subtle rounded-circle p-1 d-flex align-items-center justify-content-center"
+                          style="width: 24px; height: 24px;">
+                          <i class="ti ti-shield-check text-success-emphasis" style="font-size: 0.8rem;"></i>
+                        </div>
+                        <h6 class="fw-bold mb-0 text-dark">Recommended Protocol</h6>
+                      </div>
+                      <p class="text-secondary small leading-relaxed mb-0 fst-italic">
+                        {{ s.precautions|default:"Standard dermatological monitoring recommended." }}</p>
+                    </section>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer bg-white border-top flex-column align-items-stretch p-4">
+              <div class="d-flex align-items-center justify-content-between w-100 mb-3">
+                <div class="text-muted d-flex align-items-center gap-2" style="font-size: 0.7rem;">
+                  <i class="ti ti-calendar"></i> Analysis Date: {{ s.uploaded_date }}
+                </div>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-outline-secondary rounded-pill px-4 btn-sm" data-bs-dismiss="modal">Close
+                    Report</button>
+                  <a href="{% url 'viewdoctor' %}" class="btn btn-primary rounded-pill px-4 btn-sm">Consult
+                    Specialist</a>
+                </div>
+              </div>
+              <div class="alert alert-warning mb-0 rounded-3 py-2 px-3 d-flex align-items-center gap-2 border-0"
+                style="font-size: 0.65rem;">
+                <i class="ti ti-alert-triangle fs-4 text-warning"></i>
+                <span><strong>Disclaimer:</strong> This AI report is for informational purposes only and does not
+                  constitute a clinical diagnosis. Always seek professional help.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endwith %}
+
+    </div>
+    {% empty %}
+    <div class="col-12 py-5 text-center">
+      <div class="bg-light d-inline-block p-4 rounded-circle mb-3">
+        <i class="ti ti-photo-off fs-9 text-muted"></i>
+      </div>
+      <h4 class="fw-bold">No records found</h4>
+      <p class="text-muted">Start by uploading your first skin image for analysis.</p>
+      <a href="{% url 'add_skin_image' %}" class="btn btn-primary mt-3 px-4 rounded-pill">Upload Image</a>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endblock %}

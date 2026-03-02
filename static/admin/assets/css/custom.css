@@ -1,0 +1,306 @@
+/* Main Design Variables */
+:root {
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary-color: #10b981;
+    --accent-color: #f59e0b;
+    --bg-light: #f8fafc;
+    --sidebar-bg: #ffffff;
+    --header-bg: rgba(255, 255, 255, 0.85);
+    --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Styles */
+body {
+    background-color: var(--bg-light);
+    font-family: 'Inter', sans-serif;
+    color: #1e293b;
+    overflow-x: hidden;
+}
+
+/* Sidebar Styling */
+.left-sidebar {
+    background: var(--sidebar-bg) !important;
+    border-right: 1px solid #e2e8f0;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.02);
+    z-index: 100;
+    height: 100vh !important;
+    overflow: hidden !important;
+}
+
+.scroll-sidebar {
+    overflow-y: auto !important;
+}
+
+
+.sidebar-nav ul .sidebar-item.selected>.sidebar-link,
+.sidebar-nav ul .sidebar-item.selected>.sidebar-link.active,
+.sidebar-nav ul .sidebar-item>.sidebar-link.active {
+    background-color: var(--primary-color) !important;
+    color: #fff !important;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+}
+
+.sidebar-nav ul .sidebar-item .sidebar-link {
+    color: #64748b;
+    font-weight: 500;
+    padding: 10px 16px;
+    margin: 2px 12px;
+    border-radius: 8px;
+    transition: var(--transition-base);
+}
+
+.sidebar-nav ul .sidebar-item .sidebar-link:hover {
+    background-color: #f1f5f9;
+    color: var(--primary-color);
+}
+
+/* Header Styling */
+.app-header {
+    background: var(--header-bg) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 0 20px;
+}
+
+.navbar-nav .nav-link {
+    color: #64748b;
+    padding: 10px;
+    border-radius: 10px;
+    transition: var(--transition-base);
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #f1f5f9;
+    color: var(--primary-color);
+}
+
+.search-bar-container {
+    background: #f1f5f9;
+    border-radius: 50px;
+    padding: 5px 15px;
+    width: 280px;
+    transition: var(--transition-base);
+    border: 1px solid transparent;
+}
+
+.search-bar-container:focus-within {
+    background: #fff;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    width: 320px;
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition-base);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Table Styling */
+.custom-modern-table thead th {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    padding: 15px;
+}
+
+.custom-modern-table tbody tr {
+    transition: var(--transition-base);
+}
+
+.custom-modern-table tbody tr:hover {
+    background-color: #f8fafc;
+    transform: scale(1.005);
+}
+
+/* Footer Styling */
+.footer {
+    padding: 30px;
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
+    border-radius: 24px 24px 0 0;
+    margin-top: 50px;
+}
+
+/* Scrollbar Hiding for entire page if needed */
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+}
+
+/* ======================================= */
+/* FLEXy Correct Layout Fix                */
+/* ======================================= */
+
+/* Keep sidebar fixed at top */
+.left-sidebar {
+    top: 0 !important;
+}
+
+/* Header fixed at top */
+.app-header {
+    top: 0 !important;
+    position: sticky !important;
+    width: 100%;
+    z-index: 9999;
+}
+
+/* Push ONLY the main content down */
+.body-wrapper-inner {
+    padding-top: 90px !important;
+}
+
+/* Remove unwanted extra margin */
+.body-wrapper {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.container-fluid {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Remove browser default spacing */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Sidebar always starts from top */
+.left-sidebar {
+    top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Header stays perfectly aligned */
+.app-header {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Remove extra gap inside wrapper */
+.body-wrapper {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Flexy already gives spacing, so reduce this */
+.body-wrapper-inner {
+    padding-top: 70px !important;  /* was 90px */
+}
+
+
+/* REMOVE ALL TOP GAP COMPLETELY */
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.page-wrapper {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+.body-wrapper {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+.body-wrapper-inner {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+.left-sidebar {
+    top: 0 !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.app-header {
+    top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* ======================================= */
+/* FINAL PERFECT FLEXy SIDEBAR + HEADER FIX */
+/* ======================================= */
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Sidebar fixed */
+.left-sidebar {
+    width: 270px !important;
+    top: 0 !important;
+    left: 0 !important;
+    position: fixed !important;
+}
+
+/* Header starts after sidebar */
+.app-header {
+    position: fixed !important;
+    top: 0 !important;
+
+    left: 270px !important;
+    width: calc(100% - 270px) !important;
+
+    z-index: 999 !important;
+}
+
+/* Main content aligned properly */
+.body-wrapper {
+    margin-left: 270px !important;
+    padding-top: 80px !important;
+}
+
+/* Inner content spacing */
+.body-wrapper-inner {
+    padding-top: 20px !important;
+}
+/* ======================================= */
+/* FIX SIDEBAR BOTTOM COVER ISSUE           */
+/* ======================================= */
+
+.left-sidebar {
+    height: 100vh !important;
+    overflow-y: auto !important;   /* allow scrolling */
+    overflow-x: hidden !important;
+}
+
+/* Sidebar inner scroll fix */
+.scroll-sidebar {
+    overflow-y: auto !important;
+    max-height: 100vh !important;
+    height: 100% !important;
+}
+
+/* Remove any bottom overlay/shadow */
+.left-sidebar::after {
+    display: none !important;
+}

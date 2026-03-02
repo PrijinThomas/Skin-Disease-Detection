@@ -1,0 +1,208 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flexy Free Bootstrap Admin Template by WrapPixel</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'admin/' %}assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="{% static 'admin/' %}assets/css/styles.min.css" />
+  <link rel="stylesheet" href="{% static 'admin/' %}assets/css/custom.css">
+
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tabler Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif !important;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+
+    <!-- Sidebar Start -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between px-4 py-3 border-bottom mb-2">
+          <a href="#" class="text-nowrap logo-img d-flex align-items-center gap-2 text-decoration-none">
+            <div class="bg-primary rounded-3 p-2 d-flex align-items-center justify-content-center shadow-sm">
+              <i class="ti ti-activity-heartbeat text-white fs-8"></i>
+            </div>
+            <h4 class="mb-0 fw-bolder text-dark tracking-tight">Derma<span class="text-primary">Detect</span></h4>
+          </a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+            <i class="ti ti-x fs-6"></i>
+          </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul id="sidebarnav" class="mt-3">
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'patient_dashboard' %}" aria-expanded="false">
+                <i class="ti ti-layout-dashboard"></i>
+                <span class="hide-menu">Dashboard</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'add_skin_image' %}" aria-expanded="false">
+                <i class="ti ti-camera-plus"></i>
+                <span class="hide-menu">Upload Skin Image</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'view_skin_image' %}" aria-expanded="false">
+                <i class="ti ti-photo-heart"></i>
+                <span class="hide-menu">My Diagnostics</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'viewdoctor' %}" aria-expanded="false">
+                <i class="ti ti-stethoscope"></i>
+                <span class="hide-menu">Find Doctors</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'view_my_appointments' %}" aria-expanded="false">
+                <i class="ti ti-history"></i>
+                <span class="hide-menu">My Consultations</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'patient_disease_info' %}" aria-expanded="false">
+                <i class="ti ti-virus"></i>
+                <span class="hide-menu">Disease Info</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'patient_profile' %}" aria-expanded="false">
+                <i class="ti ti-user-circle"></i>
+                <span class="hide-menu">My Profile</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'feedback' %}" aria-expanded="false">
+                <i class="ti ti-message-report"></i>
+                <span class="hide-menu">Send Feedback</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'change_pass_page_patient' %}" aria-expanded="false">
+                <i class="ti ti-lock-password"></i>
+                <span class="hide-menu">Security</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item mt-3">
+              <a class="sidebar-link" href="{% url 'logout' %}" aria-expanded="false">
+                <i class="ti ti-logout"></i>
+                <span class="hide-menu">Sign Out</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <header class="app-header shadow-sm bg-white">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <ul class="navbar-nav">
+            <li class="nav-item d-block d-xl-none">
+              <a class="nav-link sidebartoggler " id="headerCollapse" href="javascript:void(0)">
+                <i class="ti ti-menu-2 fs-6"></i>
+              </a>
+            </li>
+          </ul>
+          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end gap-3">
+              <li class="nav-item">
+                <span class="text-muted d-none d-md-block fs-3">Welcome, <strong>
+                    {{request.session.patient_name|default:"Patient" }}</strong></span>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link " href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <div class="rounded-circle bg-light d-flex align-items-center justify-content-center border"
+                    style="width: 40px; height: 40px;">
+                    <i class="ti ti-user fs-6 text-primary"></i>
+                  </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up border-0 shadow-lg"
+                  aria-labelledby="drop2">
+                  <div class="message-body p-2">
+                    <a href="{% url 'patient_profile' %}"
+                      class="d-flex align-items-center gap-2 dropdown-item rounded-2">
+                      <i class="ti ti-user fs-4"></i>
+                      <p class="mb-0 fs-3">Profile Details</p>
+                    </a>
+                    <a href="{% url 'change_pass_page' %}"
+                      class="d-flex align-items-center gap-2 dropdown-item rounded-2">
+                      <i class="ti ti-settings fs-4"></i>
+                      <p class="mb-0 fs-3">Account Settings</p>
+                    </a>
+                    <hr class="my-2">
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger w-100 mt-1">Logout</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!--  Header End -->
+      <div class="body-wrapper-inner">
+        <div class="container-fluid">
+          <!--  Row 1 -->
+
+          <div class="mail_section_1">
+
+            {% if messages %}
+
+            {% for message in messages %}
+
+            <div class="alert {{ message.tags }}">
+              <h5 class="">{{ message }}</h5>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'admin/' %}assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="{% static 'admin/' %}assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'admin/' %}assets/js/sidebarmenu.js"></script>
+    <script src="{% static 'admin/' %}assets/js/app.min.js"></script>
+    <script src="{% static 'admin/' %}assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="{% static 'admin/' %}assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="{% static 'admin/' %}assets/js/dashboard.js"></script>
+    <!-- solar icons -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>

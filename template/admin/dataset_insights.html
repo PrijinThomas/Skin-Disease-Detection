@@ -1,0 +1,94 @@
+{% extends 'admin/adminlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="card-body p-4 bg-primary text-white d-flex align-items-center justify-content-between">
+                <div>
+                    <h3 class="fw-bolder mb-1">Clinical Dataset Insights</h3>
+                    <p class="mb-0 opacity-75">Reviewing the data foundations used for CNN training and validation.</p>
+                </div>
+                <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                    <i class="ti ti-database fs-9"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    {% for ds in datasets %}
+    <div class="col-lg-6">
+        <div class="card h-100 border-0 shadow-sm rounded-4 hover-shadow transition-all">
+            <div class="card-header bg-white py-3 border-bottom d-flex align-items-center gap-2">
+                <div class="bg-primary-subtle text-primary p-2 rounded-3">
+                    <i class="ti ti-chart-bar fs-5"></i>
+                </div>
+                <h5 class="mb-0 fw-bold text-dark">{{ ds.name }}</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="mb-4">
+                    <label class="text-uppercase fs-1 fw-bold text-muted mb-2 d-block">Full Nomenclature</label>
+                    <p class="text-dark fw-medium">{{ ds.full_name }}</p>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <label class="text-uppercase fs-1 fw-bold text-muted mb-1 d-block">Sample Count</label>
+                        <h4 class="fw-bolder text-primary mb-0">{{ ds.total_images }}</h4>
+                    </div>
+                    <div class="col-6">
+                        <label class="text-uppercase fs-1 fw-bold text-muted mb-1 d-block">Class Labels</label>
+                        <h4 class="fw-bolder text-success mb-0">{{ ds.classes }}</h4>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="text-uppercase fs-1 fw-bold text-muted mb-1 d-block">Data Repository</label>
+                    <span class="badge bg-light text-primary border px-3 py-2 rounded-pill fw-bold">{{ ds.source
+                        }}</span>
+                </div>
+
+                <div class="bg-light p-3 rounded-3">
+                    <label class="text-uppercase fs-1 fw-bold text-muted mb-2 d-block">Dataset Characteristics</label>
+                    <p class="small text-muted mb-0 leading-relaxed">{{ ds.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <i class="ti ti-alert-circle text-warning fs-6"></i>
+                    <h5 class="mb-0 fw-bold">Data Management Policy</h5>
+                </div>
+                <p class="text-muted mb-0 small">
+                    All datasets listed above are handled in compliance with medical data privacy standards. Training
+                    images are pre-processed to remove patient identifiers (de-identification) before being fed into the
+                    CNN classification module. The model is periodically validated against fresh subsets of these
+                    archives to ensure the accuracy of the detection engine.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-primary-subtle {
+        background-color: rgba(99, 102, 241, 0.1) !important;
+    }
+
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+    }
+</style>
+
+{% endblock %}

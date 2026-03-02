@@ -1,0 +1,77 @@
+{% extends 'doctor/doctorlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="col-12">
+  <div class="card custom-disease-card">
+    <div class="card-body">
+
+      <!-- Page Title -->
+      <div class="mb-4">
+        <h4 class="card-title fw-bold">
+          Doctor <span class="text-primary">Profile</span>
+        </h4>
+        <p class="text-muted small mb-0">
+          Update your account password
+        </p>
+      </div>
+
+      <!-- Password Form -->
+      <form action="{% url 'update_pass' %}" method="post">
+
+        {% csrf_token %}
+
+        <div class="row g-3">
+
+          <!-- Current Password -->
+          <div class="col-md-4">
+            <label class="form-label">Current Password</label>
+            <input type="password"
+                   class="form-control"
+                   name="o_pass"
+                   placeholder="Enter current password"
+                   required>
+          </div>
+
+          <!-- New Password -->
+          <div class="col-md-4">
+            <label class="form-label">New Password</label>
+            <input type="password"
+                   class="form-control"
+                   name="n_pass"
+                   placeholder="Enter new password"
+                   required>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="col-md-4">
+            <label class="form-label">Confirm Password</label>
+            <input type="password"
+                   class="form-control"
+                   name="c_pass"
+                   placeholder="Confirm new password"
+                   required>
+          </div>
+
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-4">
+          <button type="submit" class="btn btn-primary px-4">
+            Update Password
+          </button>
+
+          <a href="{% url 'doctor_profile' %}" class="btn btn-secondary">Back
+          </a>
+          
+        </div>
+        
+         
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

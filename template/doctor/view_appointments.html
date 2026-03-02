@@ -1,0 +1,236 @@
+{% extends 'doctor/doctorlayout.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Header Card -->
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card bg-light-info border-0 shadow-none overflow-hidden position-relative">
+            <div class="card-body py-4">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-white shadow-sm p-3 me-3">
+                        <i class="ti ti-calendar-check fs-8 text-primary"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark">Consultation Request Manager</h4>
+                        <p class="mb-0 text-muted">Review patient history and provide expert medical guidance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Appointment Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light-gray text-dark fs-4">
+                            <tr>
+                                <th class="ps-4 border-0">ID</th>
+                                <th class="border-0">Patient Profile</th>
+                                <th class="border-0">Appt. Date</th>
+                                <th class="border-0">Patient's Concern</th>
+                                <th class="border-0">AI Diagnosis</th>
+                                <th class="border-0">Action Hub</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for a in alist %}
+                            <tr class="border-bottom">
+
+                                <!-- Appointment ID -->
+                                <td class="ps-4 fw-bolder text-primary">
+                                    #{{ a.appointment_id }}
+                                </td>
+
+                                <!-- Patient Info -->
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="round-40 rounded-circle bg-light-primary d-flex align-items-center justify-content-center me-3">
+                                            <i class="ti ti-user text-primary fs-5"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-0">{{ a.patient_name }}</h6>
+                                            <span class="text-muted fs-2">{{ a.patient_email }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- Appointment Date -->
+                                <td>
+                                    <span class="badge bg-light-primary text-primary fw-semibold px-3 py-2 rounded-2">
+                                        <i class="ti ti-calendar me-1"></i>{{ a.appointment_date }}
+                                    </span>
+                                </td>
+
+                                <!-- Remarks -->
+                                <td style="max-width: 200px;">
+                                    <p class="mb-0 text-truncate text-muted small" title="{{ a.remarks }}">
+                                        {{ a.remarks|default:"No notes shared" }}
+                                    </p>
+                                </td>
+
+                                <!-- AI Diagnosis -->
+                                <td>
+                                    <a href="{% url 'patient_ai_data' a.appointment_id %}"
+                                       class="btn btn-sm btn-outline-info rounded-pill px-3">
+                                        <i class="ti ti-microscope me-1"></i>View AI Lab
+                                    </a>
+                                </td>
+
+                                <!-- Action Button -->
+                                <td>
+                                    <button
+                                        class="btn btn-primary btn-sm rounded-pill px-4 d-flex align-items-center gap-2 guidance-btn
+                                        {% if not a.medical_guidance or a.medical_guidance == 'Pending' %}btn-blink{% endif %}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#guidanceModal{{ a.appointment_id }}">
+                                        
+                                        <i class="ti ti-edit-circle fs-4"></i>
+
+                                        {% if a.medical_guidance and a.medical_guidance != 'Pending' %}
+                                            Update
+                                        {% else %}
+                                            Give Guidance
+                                        {% endif %}
+                                    </button>
+                                </td>
+
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    <i class="ti ti-mood-empty fs-10 text-muted"></i>
+                                    <h5 class="text-muted fw-bold mt-2">No consultation requests found.</h5>
+                                    <p class="text-muted">All clear for now!</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ✅ MODALS MUST BE OUTSIDE TABLE -->
+{% for a in alist %}
+<div class="modal fade" id="guidanceModal{{ a.appointment_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-0">
+                <h5 class="modal-title fw-bolder text-dark">
+                    Medical Consultation Response
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal Form -->
+            <form action="{% url 'add_medical_guidance' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="appointment_id" value="{{ a.appointment_id }}">
+
+                <div class="modal-body p-4">
+
+                    <div class="bg-light-primary rounded-3 p-3 mb-4">
+                        <h6 class="mb-0 fw-bold">{{ a.patient_name }}</h6>
+                        <small class="text-muted">
+                            Apt. ID: #{{ a.appointment_id }} • {{ a.appointment_date }}
+                        </small>
+                    </div>
+
+                    <label class="form-label fw-bold">
+                        <i class="ti ti-notes-medical me-2"></i>
+                        Treatment & Recommendations
+                    </label>
+
+                    <textarea name="medical_guidance"
+                              class="form-control border-2"
+                              rows="6"
+                              required
+                              placeholder="Type your professional medical advice here...">{{ a.medical_guidance|default:"" }}</textarea>
+
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer border-top-0 pt-0 p-4">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">
+                        Save Guidance
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+<!-- Styles -->
+<style>
+    .bg-light-info {
+        background-color: rgba(69, 201, 242, 0.1);
+    }
+
+    .bg-light-primary {
+        background-color: rgba(93, 135, 255, 0.1);
+    }
+
+    .bg-light-gray {
+        background-color: #f8f9fa;
+    }
+
+    .round-40 {
+        width: 40px;
+        height: 40px;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(93, 135, 255, 0.02);
+    }
+
+    /* Button Pulse Animation */
+    @keyframes pulse-blue {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    /* Blink only few times */
+    .btn-blink {
+        animation: pulse-blue 1s ease-in-out 3;
+    }
+</style>
+
+
+<!-- Script: Stop Blink After Click -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        let buttons = document.querySelectorAll(".guidance-btn");
+
+        buttons.forEach(btn => {
+            btn.addEventListener("click", function () {
+                btn.classList.remove("btn-blink"); 
+            });
+        });
+
+    });
+</script>
+
+{% endblock %}

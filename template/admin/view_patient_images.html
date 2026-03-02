@@ -1,0 +1,69 @@
+{% extends 'admin/adminlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white py-3 border-bottom">
+        <div class="d-flex align-items-center gap-2">
+            <i class="ti ti-photo text-primary fs-5"></i>
+            <h5 class="mb-0 fw-bold text-dark">Patient Diagnostic Gallery</h5>
+        </div>
+        <p class="text-muted small mb-0 mt-1">Reviewing all uploaded skin images and their AI analysis results.</p>
+    </div>
+    <div class="card-body p-4">
+        <div class="row g-4">
+            {% for s in slist %}
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card h-100 border shadow-none hover-shadow transition-all overflow-hidden rounded-4">
+                    <!-- Image Viewing Section -->
+                    <div class="position-relative">
+                        <img src="/media/{{ s.image_path }}" class="card-img-top"
+                            style="height: 220px; object-fit: cover;" alt="Skin Analysis">
+                        <div class="position-absolute top-0 end-0 m-2">
+                            <span class="badge bg-white text-primary shadow-sm rounded-pill fw-bold">#{{ s.skin_image_id}}</span>
+                        </div>
+                    </div>
+                    <div class="card-body p-3">
+                        <h6 class="fw-bold mb-1 text-dark">{{ s.patient_name }}</h6>
+                        <p class="text-muted fs-2 mb-3">
+                            <i class="ti ti-calendar-event me-1"></i>{{ s.uploaded_date }}
+                        </p>
+
+                        <!-- Image Description Section (Diagnosis) -->
+                        <div class="bg-light p-2 rounded-3 mb-2">
+                            <label class="d-block text-uppercase fs-1 fw-bold text-muted mb-1">Image Description
+                                (Diagnosis)</label>
+                            {% if s.diagnosis %}
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="fw-bold text-primary">{{ s.diagnosis }}</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill">{{ s.confidance_score}}%</span>
+                            </div>
+                            {% else %}
+                            <span class="text-muted fst-italic fs-2">Analysis Pending...</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <i class="ti ti-photo-off fs-9 text-muted mb-3 d-block"></i>
+                <h5 class="text-muted">No diagnostic images found in the system.</h5>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .bg-primary-subtle {
+        background-color: rgba(99, 102, 241, 0.1) !important;
+    }
+</style>
+
+{% endblock %}

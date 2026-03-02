@@ -1,0 +1,94 @@
+{% extends 'doctor/doctorlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid">
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+
+      <!-- Page Title -->
+      <div class="mb-4">
+        <h4 class="fw-bold mb-1">Edit Doctor Profile</h4>
+        <p class="text-muted small mb-0">
+          Update your profile details
+        </p>
+      </div>
+
+      <form action="{% url 'update_doctor_data' plist.doctor_id %}" method="post">
+        {% csrf_token %}
+
+        <input type="hidden" name="doctor_id" value="{{ plist.doctor_id }}">
+
+        <div class="row g-3">
+
+          <!-- Name -->
+          <div class="col-md-6">
+            <label class="form-label text-muted">Doctor Name</label>
+            <input type="text" class="form-control"
+                   name="doctor_name"
+                   value="{{ plist.doctor_name }}"
+                   required>
+          </div>
+
+          <!-- Phone -->
+          <div class="col-md-6">
+            <label class="form-label text-muted">Phone Number</label>
+            <input type="text" class="form-control"
+                   name="doctor_phone"
+                   value="{{ plist.doctor_phone }}"
+                   required>
+          </div>
+
+          <!-- Email -->
+          <div class="col-md-6">
+            <label class="form-label text-muted">Email Address</label>
+            <input type="email" class="form-control"
+                   name="doctor_email"
+                   value="{{ plist.doctor_email }}"
+                   required>
+          </div>
+
+          <!-- Specialization -->
+          <div class="col-md-6">
+            <label class="form-label text-muted">Specialization</label>
+            <input type="text" class="form-control"
+                   name="specialization"
+                   value="{{ plist.specialization }}"
+                   required>
+          </div>
+
+          <!-- Experience -->
+          <div class="col-md-6">
+            <label class="form-label text-muted">Experience (Years)</label>
+            <input type="number" class="form-control"
+                   name="experience"
+                   value="{{ plist.experience }}"
+                   required>
+          </div>
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-4 d-flex gap-2">
+
+          <button type="submit" class="btn btn-primary px-4">
+            <i class="ti ti-device-floppy me-1"></i>
+            Update Profile
+          </button>
+
+          <a href="{% url 'doctor_profile' %}"
+             class="btn btn-outline-secondary">
+             Cancel
+          </a>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

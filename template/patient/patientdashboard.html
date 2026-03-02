@@ -1,0 +1,170 @@
+{% extends 'patient/patientlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+  <!-- Stat Cards -->
+  <div class="col-sm-6 col-xl-4">
+    <div class="card bg-primary-subtle shadow-none border-0 overflow-hidden">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div>
+            <h6 class="fw-semibold mb-1 text-primary">Total Scans</h6>
+            <h4 class="fw-bold mb-0 text-primary">{{ total_images }}</h4>
+          </div>
+          <div class="ms-auto">
+            <span class="btn btn-primary d-flex align-items-center justify-content-center round-48 hstack">
+              <i class="ti ti-camera fs-6"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-4">
+    <div class="card bg-success-subtle shadow-none border-0 overflow-hidden">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div>
+            <h6 class="fw-semibold mb-1 text-success">AI Diagnoses</h6>
+            <h4 class="fw-bold mb-0 text-success">{{ total_predictions }}</h4>
+          </div>
+          <div class="ms-auto">
+            <span class="btn btn-success d-flex align-items-center justify-content-center round-48 hstack">
+              <i class="ti ti-robot fs-6"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-4">
+    <div class="card bg-warning-subtle shadow-none border-0 overflow-hidden">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div>
+            <h6 class="fw-semibold mb-1 text-warning">Feedbacks</h6>
+            <h4 class="fw-bold mb-0 text-warning">{{ total_feedback }}</h4>
+          </div>
+          <div class="ms-auto">
+            <span class="btn btn-warning d-flex align-items-center justify-content-center round-48 hstack">
+              <i class="ti ti-message-report fs-6"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <!-- Recent Scans -->
+  <div class="col-lg-8">
+    <div class="card border shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h5 class="card-title fw-semibold mb-0">Recent Diagnostics</h5>
+          <a href="{% url 'view_skin_image' %}" class="btn btn-outline-primary btn-sm rounded-pill">View All</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table text-nowrap mb-0 align-middle">
+            <thead class="text-dark fs-4 bg-light">
+              <tr>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">Image</h6>
+                </th>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">Diagnosis</h6>
+                </th>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">Confidence</h6>
+                </th>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">Date</h6>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in recent_images %}
+              <tr>
+                <td class="border-bottom-0">
+                  <div class="d-flex align-items-center">
+                    <img src="/media/{{ item.image_path }}" class="rounded-3" width="50" height="50"
+                      style="object-fit: cover;" alt="skin img">
+                  </div>
+                </td>
+                <td class="border-bottom-0">
+                  <h6 class="fw-semibold mb-1">{{ item.diagnosis|default:"Processing..." }}</h6>
+                </td>
+                <td class="border-bottom-0">
+                  <div class="d-flex align-items-center gap-2">
+                    <span
+                      class="badge {% if item.confidance_score|add:0 > 80 %}bg-success{% elif item.confidance_score|add:0 > 50 %}bg-warning{% else %}bg-danger{% endif %} rounded-3 fw-semibold">
+                      {{ item.confidance_score|default:"0.00" }}%
+                    </span>
+                  </div>
+                </td>
+                <td class="border-bottom-0">
+                  <p class="mb-0 fw-normal">{{ item.uploaded_date }}</p>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="4" class="text-center py-4">
+                  <div class="text-muted">
+                    <i class="ti ti-camera-off fs-7 mb-2 d-inline-block"></i>
+                    <p class="mb-0">No scans uploaded yet.</p>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="col-lg-4">
+    <div class="card border shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4 text-center">Quick Actions</h5>
+        <div class="d-grid gap-3">
+          <a href="{% url 'add_skin_image' %}"
+            class="btn btn-primary d-flex align-items-center justify-content-center gap-2 py-2 shadow">
+            <i class="ti ti-camera-plus fs-5"></i> New Skin Scan
+          </a>
+          <a href="{% url 'viewdoctor' %}"
+            class="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2 py-2">
+            <i class="ti ti-stethoscope fs-5"></i> Consult Doctor
+          </a>
+          <hr class="my-2">
+          <a href="{% url 'patient_profile' %}"
+            class="btn btn-light d-flex align-items-center justify-content-start gap-2 py-2 px-3 text-start">
+            <i class="ti ti-user-edit fs-5 text-primary"></i> Edit My Profile
+          </a>
+          <a href="{% url 'feedback' %}"
+            class="btn btn-light d-flex align-items-center justify-content-start gap-2 py-2 px-3 text-start">
+            <i class="ti ti-message-report fs-5 text-primary"></i> Send Feedback
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Health Tip Card -->
+    <div class="card bg-info shadow-none border-0 mt-4 overflow-hidden position-relative">
+      <div class="card-body text-white position-relative z-1">
+        <h6 class="text-white opacity-75 mb-1">Health Tip</h6>
+        <p class="mb-0 fw-semibold">Early detection is key! Regularly monitor your skin for any changes or new moles.
+        </p>
+      </div>
+      <i class="ti ti-heart-handshake position-absolute bottom-0 end-0 text-white opacity-25"
+        style="font-size: 80px; margin-right: -10px; margin-bottom: -15px;"></i>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

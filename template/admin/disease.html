@@ -1,0 +1,122 @@
+{% extends 'admin/adminlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+    <!-- Left Column: Add Disease Form -->
+    <div class="col-lg-4 mb-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-primary py-3 rounded-top-4">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="ti ti-plus text-white fs-5"></i>
+                    <h5 class="mb-0 fw-bold text-white">Add New Disease</h5>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form action="{% url 'd_save_data' %}" method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark fs-2">Clinical Name</label>
+                        <input type="text" class="form-control bg-light border-0 shadow-none py-2" name="diseasename"
+                            placeholder="e.g. Melanoma" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark fs-2">General Description</label>
+                        <textarea class="form-control bg-light border-0 shadow-none py-2" name="description" rows="2"
+                            placeholder="Brief overview..." required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark fs-2">Key Symptoms</label>
+                        <input type="text" class="form-control bg-light border-0 shadow-none py-2" name="symptoms"
+                            placeholder="Itching, Redness" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark fs-2">Safety Precautions</label>
+                        <input type="text" class="form-control bg-light border-0 shadow-none py-2" name="precuations"
+                            placeholder="Avoid sunlight" required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary fw-bold py-2 rounded-3">
+                            <i class="ti ti-device-floppy me-1"></i> Register Disease
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Disease Table -->
+    <div class="col-lg-8 mb-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white py-3 border-bottom">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="ti ti-list text-primary fs-5"></i>
+                        <h5 class="mb-0 fw-bold text-dark">Skin Diseases Registry</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="border-0 ps-4 py-3 fs-2 text-muted text-uppercase fw-bold">ID</th>
+                                <th class="border-0 py-3 fs-2 text-muted text-uppercase fw-bold">Disease</th>
+                                <th class="border-0 py-3 fs-2 text-muted text-uppercase fw-bold">Symptoms</th>
+                                <th class="border-0 py-3 fs-2 text-muted text-uppercase fw-bold text-end pe-4">Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in dlist %}
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="badge bg-light text-dark fw-bold">#{{ d.disease_id }}</span>
+                                </td>
+                                <td>
+                                    <h6 class="mb-0 fw-bold text-dark">{{ d.disease_name }}</h6 <small
+                                        class="text-muted d-block text-truncate" style="max-width: 200px;">
+                                    {{d.description }}</small>
+                                </td>
+                                <td>
+                                    <span class="text-muted fs-2">{{ d.symptoms }}</span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <a href="{% url 'd_edit_data' d.disease_id %}"
+                                            class="btn btn-sm btn-outline-primary rounded-circle p-1 d-flex align-items-center justify-content-center"
+                                            style="width: 32px; height: 32px;" title="Edit">
+                                            <i class="ti ti-edit fs-4"></i>
+                                        </a>
+                                        <a href="{% url 'd_delete_disease' d.disease_id %}"
+                                            class="btn btn-sm btn-outline-danger rounded-circle p-1 d-flex align-items-center justify-content-center"
+                                            style="width: 32px; height: 32px;"
+                                            onclick="return confirm('Are you sure you want to delete this record?')"
+                                            title="Delete">
+                                            <i class="ti ti-trash fs-4"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted fst-italic">
+                                    No disease records found in the registry.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

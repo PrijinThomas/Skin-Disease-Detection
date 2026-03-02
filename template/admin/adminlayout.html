@@ -1,0 +1,245 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard | DermaDetect AI</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'admin/' %}assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="{% static 'admin/' %}assets/css/styles.min.css" />
+  <link rel="stylesheet" href="{% static 'admin/assets/css/custom.css' %}">
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tabler Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+
+    <!-- Sidebar Start -->
+    <aside class="left-sidebar shadow-sm">
+      <!-- Sidebar scroll-->
+      <div class="">
+        <div class="brand-logo d-flex align-items-center justify-content-between px-4 py-3 border-bottom mb-2">
+          <a href="#" class="text-nowrap logo-img d-flex align-items-center gap-2 text-decoration-none">
+            <div class="bg-primary rounded-3 p-2 d-flex align-items-center justify-content-center shadow-sm">
+              <i class="ti ti-activity-heartbeat text-white fs-8"></i>
+            </div>
+            <h4 class="mb-0 fw-bolder text-dark tracking-tight">Derma<span class="text-primary">Detect</span></h4>
+          </a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+            <i class="ti ti-x fs-6"></i>
+          </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+          <ul id="sidebarnav" class="mt-3">
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'adminlogin' %}" aria-expanded="false">
+                <i class="ti ti-layout-dashboard"></i>
+                <span class="hide-menu">Dashboard</span>
+              </a>
+            </li>
+
+            
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'managedisease' %}" aria-expanded="false">
+                <i class="ti ti-virus"></i>
+                <span class="hide-menu">Manage Diseases</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'add_doctor' %}" aria-expanded="false">
+                <i class="ti ti-virus"></i>
+                <span class="hide-menu">Manage Staff</span>
+              </a>
+            </li>
+
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'view_doctor' %}" aria-expanded="false">
+                <i class="ti ti-stethoscope"></i>
+                <span class="hide-menu">Medical Staff</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'p_display_patients' %}" aria-expanded="false">
+                <i class="ti ti-friends"></i>
+                <span class="hide-menu">Patient Database</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'view_patient_images' %}" aria-expanded="false">
+                <i class="ti ti-photo"></i>
+                <span class="hide-menu">Diagnostic Gallery</span>
+              </a>
+            </li>
+
+            <!-- <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'dataset_insights' %}" aria-expanded="false">
+                <i class="ti ti-database"></i>
+                <span class="hide-menu">Dataset Insights</span>
+              </a>
+            </li> -->
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'view_feedback' %}" aria-expanded="false">
+                <i class="ti ti-award"></i>
+                <span class="hide-menu">User Feedback</span>
+              </a>
+            </li>
+
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'change_password_page' %}" aria-expanded="false">
+                <i class="ti ti-lock-access"></i>
+                <span class="hide-menu">Access Security</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item mt-3">
+              <a class="sidebar-link" href="{% url 'logout' %}" aria-expanded="false">
+                <i class="ti ti-logout"></i>
+                <span class="hide-menu">Sign Out</span>
+              </a>
+            </li>
+
+          </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+    </aside>
+    <!--  Sidebar End -->
+
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light px-4">
+          <ul class="navbar-nav align-items-center">
+            <li class="nav-item d-block d-xl-none">
+              <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                <i class="ti ti-menu-2"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <div class="search-bar-container d-none d-md-flex align-items-center">
+                <i class="ti ti-search text-muted me-2"></i>
+                <input type="text" class="form-control border-0 bg-transparent shadow-none p-0 fs-3"
+                  placeholder="Search insights...">
+              </div>
+            </li>
+          </ul>
+
+          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end gap-3">
+              <li class="nav-item dropdown">
+                <a class="nav-link nav-icon-hover position-relative" href="javascript:void(0)" id="drop1"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="ti ti-bell-ringing"></i>
+                  <span
+                    class="notification bg-primary rounded-circle position-absolute top-0 start-100 translate-middle-x"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up border-0 shadow-lg p-0"
+                  aria-labelledby="drop1">
+                  <div class="message-body p-3">
+                    <h6 class="fw-bold mb-3">Recent Notifications</h6>
+                    <div class="text-center py-4 bg-light rounded-3">
+                      <i class="ti ti-confetti fs-7 text-primary mb-2 d-block"></i>
+                      <p class="text-muted fs-2 mb-0">System is running smooth!</p>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link pe-0" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <div class="d-flex align-items-center gap-3 bg-light rounded-pill p-1 ps-3 border">
+                    <div class="d-none d-lg-block text-end">
+                      <p class="mb-0 fs-2 fw-bold text-dark lh-1">Administrator</p>
+                      
+                    </div>
+                    <img src="{% static 'admin/' %}assets/images/profile/user-1.jpg" alt="" width="32" height="32"
+                      class="rounded-circle shadow-sm">
+                  </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up border-0 shadow-lg px-2"
+                  aria-labelledby="drop2">
+                  <div class="message-body p-2">
+                    <a href="{% url 'change_password_page' %}"
+                      class="d-flex align-items-center gap-3 dropdown-item py-2 px-3 rounded-3">
+                      <i class="ti ti-settings fs-5 text-primary"></i>
+                      <p class="mb-0 fs-3">Account Settings</p>
+                    </a>
+                    <hr class="my-2 border-light">
+                    <a href="{% url 'logout' %}" class="btn btn-outline-primary d-block fw-bold mt-2">Sign Out</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!--  Header End -->
+
+      <div class="body-wrapper-inner">
+        <div class="container-fluid">
+
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show border-0 shadow-sm rounded-4 mb-4"
+            role="alert">
+            <div class="d-flex align-items-center gap-2">
+              <i class="ti ti-info-circle-filled fs-5"></i>
+              <div class="fw-medium">{{ message }}</div>
+            </div>
+            <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          {% block content %}
+          {% endblock %}
+
+          <!-- Footer -->
+          <footer
+            class="footer d-flex flex-column flex-md-row align-items-center justify-content-between shadow-sm border mt-5">
+            <p class="mb-2 mb-md-0 fs-2 text-muted fw-medium">All Rights Reserved © 2026 <span
+                class="text-primary fw-bold">DermaDetect AI</span></p>
+            <div class="d-flex gap-4">
+              <a href="#" class="text-muted fs-2 text-decoration-none fw-semibold hover-primary">Support</a>
+              <a href="#" class="text-muted fs-2 text-decoration-none fw-semibold hover-primary">Privacy</a>
+              <a href="#" class="text-muted fs-2 text-decoration-none fw-semibold hover-primary">Terms</a>
+            </div>
+          </footer>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'admin/' %}assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="{% static 'admin/' %}assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'admin/' %}assets/js/sidebarmenu.js"></script>
+  <script src="{% static 'admin/' %}assets/js/app.min.js"></script>
+  <script src="{% static 'admin/' %}assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+  <script src="{% static 'admin/' %}assets/js/dashboard.js"></script>
+  <!-- solar icons -->
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>

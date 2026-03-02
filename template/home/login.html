@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Login - Medilab SkinCare AI</title>
+  
+  <link href="{% static 'home/' %}assets/img/favicon.png" rel="icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600;700&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="{% static 'home/' %}assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{% static 'home/' %}assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'home/assets/css/login.css' %}">
+</head>
+
+<body>
+  <div class="container">
+    <div class="login-card mx-auto">
+      <div class="login-info">
+        <h1>DermaDetect AI</h1>
+        <h2>Your Skin Health, Our Priority.</h2>
+        <p>Access advanced AI detection tools and connect with dermatologists.</p>
+      </div>
+
+     <div class="login-form-container">
+        <a href="{% url 'home' %}" class="back-to-home">
+          <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+        
+        <h3 class="mb-2">Welcome Back</h3>
+        <p class="text-muted mb-4">Please enter your credentials to log in.</p>
+
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-danger">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+
+
+        <form action="{% url 'checklogin' %}" method="post">
+          {% csrf_token %}
+          
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              <input 
+                type="text" 
+                name="username" 
+                class="form-control" 
+                placeholder="Enter username" 
+                required
+              >
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="d-flex justify-content-between">
+              <label class="form-label">Password</label>
+              
+            </div>
+            <div class="input-group password-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input 
+                type="password" 
+                name="password" 
+                id="password" 
+                class="form-control" 
+                placeholder="••••••••" 
+                required
+              >
+              <button 
+                class="btn border-secondary-subtle border-start-0" 
+                type="button" 
+                onclick="togglePass()" 
+                style="border: 1px solid #ddecfa;"
+              >
+                <i class="bi bi-eye" id="eye-icon"></i>
+              </button>
+            </div>
+          </div>
+
+         
+
+          <button type="submit" class="btn btn-login mb-3">Login to Account</button>
+
+          <div class="text-center mt-3">
+            <span class="text-muted" style="font-size: 14px;">Don't have an account?</span>
+            <a href="{%url 'registration' %}" class="text-decoration-none ms-1" style="font-weight: 600; color: var(--accent-color);">Sign Up</a>
+          </div>
+          <div class="text-center mt-3">
+            <span class="text-muted" style="font-size: 14px;">Forgot password?</span>
+            <a href="{%url 'forgotpass' %}" class="text-decoration-none ms-1" style="font-weight: 600; color: var(--accent-color);">Click here</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

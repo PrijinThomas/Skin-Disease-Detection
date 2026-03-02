@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Register - DermaDetect AI</title>
+  
+  <link href="{% static 'home/' %}assets/img/favicon.png" rel="icon">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600;700&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="{% static 'home/' %}assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{% static 'home/' %}assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'home/assets/css/login.css' %}">
+</head>
+
+<body>
+  <div class="container mt-5 pt-5">
+    <div class="login-card mx-auto">
+      <div class="login-info">
+        <h1>DermaDetect AI</h1>
+        <h2>Join Our Community</h2>
+        <p>Create your account for personalized skin health analysis and expert tracking.</p>
+      </div>
+
+      <div class="login-form-container">
+        <a href="{% url 'home' %}" class="back-to-home">
+          <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+        
+        <h3 class="mb-2">Registration</h3>
+        <p class="text-muted mb-4">Please fill in your details to create an account.</p>
+
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} py-2 small">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+
+        <form action="{% url 'p_reg_savedata' %}" method="post">
+          {% csrf_token %}
+          
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Full Name</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input type="text" name="patient_name" class="form-control" placeholder="Enter name" required>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Phone Number</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                <input type="number" name="patient_phone" class="form-control" placeholder="10-digit number" required>
+              </div>
+            </div>
+
+            <div class="col-md-12 mb-3">
+              <label class="form-label">Email Address</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                <input type="email" name="patient_email" class="form-control" placeholder="example@mail.com" required>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Gender</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-gender-ambiguous"></i></span>
+                <select name="patient_gender" class="form-select form-control" required style="border-left: none;">
+                  <option value="" selected disabled>Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Date of Birth</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+                <input type="date" name="patient_dob" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="col-md-12 mb-3">
+              <label class="form-label">Password</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input type="password" name="password" class="form-control" placeholder="Set password" required>
+              </div>
+            </div>
+
+            <div class="col-md-12 mb-4">
+              <label class="form-label">Residential Address</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                <textarea name="patient_address" class="form-control" rows="2" placeholder="Enter your full address" required></textarea>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-login mb-3">Complete Registration</button>
+
+          <div class="text-center mt-3">
+            <span class="text-muted" style="font-size: 14px;">Already have an account?</span>
+            <a href="{% url 'login' %}" class="text-decoration-none ms-1" style="font-weight: 600; color: var(--accent-color);">Login here</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+{% extends 'doctor/doctorlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid">
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <!-- Title -->
+      <div class="mb-4">
+        <h4 class="fw-bold">Doctor Profile</h4>
+        <p class="text-muted small mb-0">
+          View and manage your profile information
+        </p>
+      </div>
+
+      <div class="row">
+
+        <!-- Profile Image -->
+        <div class="col-md-3 text-center border-end">
+
+          {% if plist.doctor_img %}
+            <img src="/media/{{ plist.doctor_img }}"
+                 class="rounded-circle mb-3"
+                 style="width:160px;height:160px;object-fit:cover;border:3px solid #eee;">
+          {% else %}
+            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3"
+                 style="width:160px;height:160px;">
+              <i class="ti ti-user fs-1 text-muted"></i>
+            </div>
+          {% endif %}
+
+          <h5 class="fw-semibold">{{ plist.doctor_name }}</h5>
+          <p class="text-muted">{{ plist.specialization }}</p>
+
+        </div>
+
+        <!-- Doctor Info -->
+        <div class="col-md-9">
+
+          <div class="row g-3">
+
+            <div class="col-md-6">
+              <label class="form-label text-muted">Phone</label>
+              <input type="text" class="form-control" 
+                     value="{{ plist.doctor_phone }}" disabled>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label text-muted">Email</label>
+              <input type="text" class="form-control"
+                     value="{{ plist.doctor_email }}" disabled>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label text-muted">Specialization</label>
+              <input type="text" class="form-control"
+                     value="{{ plist.specialization }}" disabled>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label text-muted">Experience</label>
+              <input type="text" class="form-control"
+                     value="{{ plist.experience }} Years" disabled>
+            </div>
+
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="mt-4 d-flex gap-2">
+
+            <a href="{% url 'edit_doctor_data' plist.doctor_id %}"
+               class="btn btn-primary">
+               Edit Profile
+            </a>
+
+            <a href="{% url 'edit_doctor_image' plist.doctor_id %}"
+               class="btn btn-outline-info">
+               Change Image
+            </a>
+
+            <a href="{% url 'change_pass_page' %}"
+               class="btn btn-outline-secondary">
+               Change Password
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'admin/adminlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title fw-semibold mb-4">Add Doctor</h5>
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <!-- 🔥 IMPORTANT: enctype added -->
+                        <form action="{% url 'save_doctor_data' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- MESSAGES -->
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} mb-3">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                            <!-- Doctor Name -->
+                            <div class="mb-3">
+                                <label class="form-label">Doctor Name</label>
+                                <input type="text" class="form-control" name="do_name" placeholder="Enter doctor name" required>
+                            </div>
+
+                            <!-- Doctor Phone -->
+                            <div class="mb-3">
+                                <label class="form-label">Doctor Phone</label>
+                                <input type="text" class="form-control" name="do_phone" placeholder="Enter phone number" required>
+                            </div>
+
+                            <!-- 🔥 Doctor Image (FIXED) -->
+                            <div class="mb-3">
+                                <label class="form-label">Doctor Image</label>
+                                <input type="file" class="form-control" name="do_img" required>
+                            </div>
+
+                            <!-- Specialization -->
+                            <div class="mb-3">
+                                <label class="form-label">Specialization</label>
+                                <input type="text" class="form-control" name="do_specialization" placeholder="Enter specialization" required>
+                            </div>
+
+                            <!-- Experience -->
+                            <div class="mb-3">
+                                <label class="form-label">Experience</label>
+                                <input type="number" class="form-control" name="do_experience" placeholder="Enter experience (years)" required>
+                            </div>
+
+                            <!-- Doctor Email -->
+                            <div class="mb-3">
+                                <label class="form-label">Doctor Email</label>
+                                <input type="email" class="form-control" name="do_email" placeholder="Enter email" required>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" name="do_password" placeholder="Enter password" required>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary">
+                                Add Doctor
+                            </button>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'patient/patientlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="appointment_section">
+         <div class="container">
+            <div class="appointment_box">
+               <div class="row">
+                  <div class="col-md-12">
+                     <h1 class="appointment_taital">Patient <span style="color: #0cb7d6;">profile</span></h1>
+                  </div>
+               </div>
+             <form action="{% url 'update_patient_data' plist.patient_id %}" method="post">
+               {% csrf_token %}
+               <div class="appointment_section_2">
+                  <div class="row">
+                     <div class="col-md-4">
+                        <p class="doctorname_text">Name</p>
+                        <input type="read"  value="{{ plist.patient_name }}" name="patient_name">
+                     </div>
+                     <div class="col-md-4">
+                        <p class="doctorname_text">Address</p>
+                        <input type="text" class="email_text" value="{{ plist.patient_address }}" placeholder="" name="patient_address">
+                     </div>
+                     <div class="col-md-4">
+                        <p class="doctorname_text">Phone</p>
+                        <input type="text" class="email_text" value="{{ plist.patient_phone }}" placeholder="" name="patient_phone">
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-4">
+                        <p class="doctorname_text">Email</p>
+                        <input type="text" class="email_text" value="{{ plist.patient_email }}" placeholder="" name="patient_email">
+                     </div>
+                     <div class="col-md-4">
+                        <p class="doctorname_text">Gender</p>
+                        <select name="patient_gender" class="mail_text" id="gender" required>
+                                <option value="male">MALE</option>
+                                <option value="female">FEMALE</option>
+                                <option value="other">OTHER</option>
+                            </select>
+                     </div>
+                     <div class="col-md-4">
+                        <p class="doctorname_text">DOB</p>
+                        <input type="text" class="email_text" value="{{ plist.patient_dob }}" placeholder="" name="patient_dob">
+                     </div>
+
+                      <div class="col-md-4">
+                        <input type="hidden" class="email_text" value="{{ plist.patient_id }}" placeholder="" name="patient_id">
+                     </div>
+
+                     <input type="submit" value="Update">
+
+                  </div>
+               </div>
+            </form>
+            </div>
+         </div>
+      </div>
+  {% endblock %}

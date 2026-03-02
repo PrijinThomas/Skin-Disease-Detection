@@ -1,0 +1,61 @@
+{% extends 'admin/adminlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h5 class="card-title mb-4">Change Doctor Image</h5>
+
+                <!-- Messages -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- 🔥 ONLY IMAGE FORM -->
+                <form action="{% url 'update_doctor_img' plist.doctor_id %}"
+                      method="post"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Current Image -->
+                    <div class="mb-3">
+                        <label class="form-label">Current Image</label><br>
+                        {% if plist.doctor_img %}
+                            <img src="/media/{{ plist.doctor_img }}"
+                                 style="width:150px;height:150px;border-radius:50%;object-fit:cover;border:1px solid #ccc;">
+                        {% else %}
+                            <p class="text-muted">No image uploaded</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- New Image -->
+                    <div class="mb-3">
+                        <label class="form-label">Select New Image</label>
+                        <input type="file" class="form-control" name="do_img" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Update Image
+                    </button>
+
+                    <a href="{% url 'view_doctor' %}" class="btn btn-secondary">
+                        Back
+                    </a>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

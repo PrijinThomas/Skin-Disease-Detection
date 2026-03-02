@@ -1,0 +1,81 @@
+{% extends 'admin/adminlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="col-12">
+  <div class="card custom-disease-card">
+    <div class="card-body">
+
+      <div class="d-md-flex align-items-center mb-3">
+        <div>
+          <h4 class="card-title fw-bold">Disease Details</h4>
+        </div>
+      </div>
+
+      <div class="table-responsive mt-4">
+        <table class="table table-hover align-middle custom-modern-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Disease</th>
+              <th>Description</th>
+              <th>Symptoms</th>
+              <th>Precautions</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for d in dlist %}
+            <tr>
+
+              <!-- ID -->
+              <td>
+                <span class="badge bg-light text-dark">{{ d.disease_id }}</span>
+              </td>
+
+              <!-- Disease Name -->
+              <td>
+                <span class="badge bg-light text-dark">{{ d.disease_name }}</span>
+              </td>
+
+              <!-- Description -->
+              <td>
+                <span class="badge bg-light text-dark">{{ d.description }}</span>
+              </td>
+
+              <!-- Symptoms -->
+              <td>
+                <span class="badge bg-light text-dark">{{ d.symptoms }}</span>
+              </td>
+
+              <!-- Precautions -->
+              <td>
+                <span class="badge bg-light text-dark">{{ d.precautions }}</span>
+              </td>
+
+              <!-- Actions -->
+              <td class="text-end">
+                <a href="{% url 'd_edit_data' d.disease_id %}" 
+                   class="btn btn-sm btn-outline-primary rounded-circle me-1">
+                  <i class="ti ti-edit"></i>
+                </a>
+                <a href="{% url 'd_delete_disease' d.disease_id %}" 
+                   class="btn btn-sm btn-outline-danger rounded-circle"
+                   onclick="return confirm('Are you sure?')">
+                  <i class="ti ti-trash"></i>
+                </a>
+              </td>
+
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+

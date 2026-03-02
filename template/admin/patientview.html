@@ -1,0 +1,85 @@
+{% extends 'admin/adminlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="col-12">
+  <div class="card custom-disease-card">
+    <div class="card-body">
+
+      <div class="d-md-flex align-items-center mb-3">
+        <div>
+          <h4 class="card-title fw-bold">Patient Details</h4>
+        </div>
+      </div>
+
+      <!-- TABLE MUST BE INSIDE BLOCK -->
+      <div class="table-responsive mt-4">
+        <table class="table table-hover align-middle custom-modern-table">
+          <thead>
+            <tr>
+              
+              <th>ID</th>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Details</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for p in plist %}
+            <tr>
+             
+              <!-- ID -->
+              <td>
+                <span class="badge bg-light text-dark">{{ p.patient_id }}</span>
+              </td>
+
+              <!-- Name -->
+               <td>
+                <span class="badge bg-light text-dark">{{ p.patient_name }}</span>
+              </td>
+              <td>
+                <span class="badge bg-light text-dark">{{ p.patient_gender }}</span>
+              </td>
+
+
+              <!-- Details -->
+               <td>
+                <span class="badge bg-light text-dark">{{ p.patient_address }}</span>
+              </td>
+             
+
+              <!-- Contact -->
+               <td>
+                <span class="badge bg-light text-dark">{{ p.patient_email }}</span>
+              </td>
+              <td>
+                <span class="badge bg-light text-dark">{{ p.patient_phone }}</span>
+              </td>
+
+    
+             
+
+              <!-- Actions -->
+              <td class="text-end">
+                <a href="#" class="btn btn-sm btn-outline-primary rounded-circle me-1">
+                  <i class="ti ti-edit"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-outline-danger rounded-circle">
+                  <i class="ti ti-trash"></i>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

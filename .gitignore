@@ -1,0 +1,21 @@
+# Dataset
+HAM10000_images_part_1/
+HAM10000_images_part_2/
+*.csv
+
+# Django
+db.sqlite3
+media/
+
+# Python
+__pycache__/
+*.pyc
+
+# Model files
+*.h5
+*.pt
+*.pth
+
+# Virtual environment
+venv/
+env/

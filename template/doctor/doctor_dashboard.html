@@ -1,0 +1,224 @@
+{% extends 'doctor/doctorlayout.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="row">
+  <!-- Welcome Header -->
+  <div class="col-12 mb-4">
+    <div class="card bg-light-primary border-0 shadow-none overflow-hidden position-relative">
+      <div class="card-body py-4">
+        <div class="row align-items-center">
+          <div class="col-sm-7">
+            <div class="d-flex align-items-center mb-3">
+              <div class="rounded-circle bg-white shadow-sm p-2 me-3">
+                <i class="ti ti-user-check fs-8 text-primary"></i>
+              </div>
+              <h4 class="fw-bold mb-0">Welcome Back, Dr. {{ ddata.doctor_name }}!</h4>
+            </div>
+            <p class="mb-0 text-muted">You have <span class="fw-bold text-primary">{{ pending_guidance }} pending</span>
+              consultations to review today. Stay updated with your patient diagnostics.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Stat Cards -->
+  <div class="col-md-4 mb-4">
+    <div class="card border-0 shadow-sm gradient-card-blue h-100">
+      <div class="card-body">
+        <div class="d-flex align-items-center mb-3">
+          <div
+            class="round-40 rounded-circle bg-white-transparent d-flex align-items-center justify-content-center me-3">
+            <i class="ti ti-calendar-event fs-6 text-white"></i>
+          </div>
+          <span class="text-white opacity-75 fw-semibold fs-3 text-uppercase">Total Appointments</span>
+        </div>
+        <div class="d-flex align-items-center">
+          <h2 class="text-white fw-bold mb-0">{{ total_appointments }}</h2>
+          <span class="ms-auto badge bg-white-transparent text-white">+12%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card border-0 shadow-sm gradient-card-green h-100">
+      <div class="card-body">
+        <div class="d-flex align-items-center mb-3">
+          <div
+            class="round-40 rounded-circle bg-white-transparent d-flex align-items-center justify-content-center me-3">
+            <i class="ti ti-users fs-6 text-white"></i>
+          </div>
+          <span class="text-white opacity-75 fw-semibold fs-3 text-uppercase">Unique Patients</span>
+        </div>
+        <div class="d-flex align-items-center">
+          <h2 class="text-white fw-bold mb-0">{{ total_patients }}</h2>
+          <span class="ms-auto badge bg-white-transparent text-white">Active</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card border-0 shadow-sm gradient-card-orange h-100">
+      <div class="card-body">
+        <div class="d-flex align-items-center mb-3">
+          <div
+            class="round-40 rounded-circle bg-white-transparent d-flex align-items-center justify-content-center me-3">
+            <i class="ti ti-clock-pause fs-6 text-white"></i>
+          </div>
+          <span class="text-white opacity-75 fw-semibold fs-3 text-uppercase">Pending Guidance</span>
+        </div>
+        <div class="d-flex align-items-center">
+          <h2 class="text-white fw-bold mb-0">{{ pending_guidance }}</h2>
+          <span class="ms-auto badge bg-white-transparent text-white">Urgent</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-2">
+  <!-- Recent Activity Table -->
+  <div class="col-12">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <div class="d-md-flex align-items-center mb-9">
+          <div>
+            <h4 class="card-title fw-bold">Recent Consultation Requests</h4>
+            <p class="card-subtitle mb-0">Quick overview of your latest patient bookings</p>
+          </div>
+          <div class="ms-auto mt-3 mt-md-0">
+            <a href="{% url 'view_appointments' %}" class="btn btn-outline-primary px-4">View All</a>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-middle text-nowrap mb-0">
+            <thead class="text-dark fs-4 bg-light-gray">
+              <tr>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">Patient</h6>
+                </th>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">Date</h6>
+                </th>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">Status</h6>
+                </th>
+                <th class="border-bottom-0 text-end">
+                  <h6 class="fw-semibold mb-0">Action</h6>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for a in recent_appointments %}
+              <tr>
+                <td class="border-bottom-0">
+                  <div class="d-flex align-items-center">
+                    <div class="round-40 rounded-circle bg-light d-flex align-items-center justify-content-center me-3">
+                      <i class="ti ti-user text-primary fs-5"></i>
+                    </div>
+                    <div>
+                      <h6 class="fw-semibold mb-1">{{ a.patient_name }}</h6>
+                      <span class="fw-normal text-muted fs-2">{{ a.patient_phone }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-bottom-0">
+                  <p class="mb-0 fw-normal">{{ a.appointment_date }}</p>
+                </td>
+                <td class="border-bottom-0">
+                  {% if a.medical_guidance == 'Pending' %}
+                  <span class="badge bg-light-warning text-warning fw-semibold px-3">Pending</span>
+                  {% else %}
+                  <span class="badge bg-light-success text-success fw-semibold px-3">Reviewed</span>
+                  {% endif %}
+                </td>
+                <td class="border-bottom-0 text-end">
+                  <a href="{% url 'patient_ai_data' a.appointment_id %}"
+                    class="btn btn-sm btn-light-primary text-primary fw-bold">
+                    Check AI Report
+                  </a>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="4" class="text-center py-4">No recent appointments found.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-light-primary {
+    background-color: rgba(93, 135, 255, 0.1);
+  }
+
+  .bg-light-gray {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+
+  .bg-light-warning {
+    background-color: rgba(255, 174, 31, 0.1);
+  }
+
+  .bg-light-success {
+    background-color: rgba(19, 222, 185, 0.1);
+  }
+
+  .btn-light-primary {
+    background-color: rgba(93, 135, 255, 0.1);
+    border: none;
+  }
+
+  .btn-light-primary:hover {
+    background-color: #5d87ff;
+    color: white !important;
+  }
+
+  .gradient-card-blue {
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+  }
+
+  .gradient-card-green {
+    background: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);
+  }
+
+  .gradient-card-orange {
+    background: linear-gradient(135deg, #f6c23e 0%, #dda20a 100%);
+  }
+
+  .bg-white-transparent {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .round-40 {
+    width: 40px;
+    height: 40px;
+  }
+
+  .round-48 {
+    width: 48px;
+    height: 48px;
+  }
+
+  .card {
+    transition: all 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+  }
+</style>
+
+{% endblock %}

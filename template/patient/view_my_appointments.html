@@ -1,0 +1,79 @@
+{% extends 'patient/patientlayout.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <h4 class="fw-bold"><i class="ti ti-history me-2"></i>My Consultations</h4>
+        <p class="text-muted">Track your appointment requests and view doctor recommendations.</p>
+    </div>
+</div>
+
+<div class="row">
+    {% for a in alist %}
+    <div class="col-lg-6 mb-4">
+        <div class="card border-0 shadow-sm h-100 overflow-hidden">
+            <div class="card-header bg-white py-3 border-0">
+                <div class="d-flex align-items-center justify-content-between">
+                    <span class="badge bg-light-primary text-primary px-3 py-2">Date: {{ a.appointment_date }}</span>
+                    <span class="text-muted small">ID: #{{ a.appointment_id }}</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                    <div class="bg-primary-subtle text-primary rounded-circle p-2 d-flex align-items-center justify-content-center me-3"
+                        style="width: 50px; height: 50px;">
+                        <i class="ti ti-stethoscope fs-6"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Dr. {{ a.doctor_name }}</h5>
+                        <small class="text-muted">{{ a.specialization }} • {{ a.doctor_email }}</small>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h6 class="fw-bold small text-uppercase mb-2"><i class="ti ti-notes me-1"></i>Your Remarks:</h6>
+                    <p class="text-muted mb-0">{{ a.remarks|default:"No remarks provided" }}</p>
+                </div>
+
+                <div class="bg-light p-3 rounded-3">
+                    <h6 class="fw-bold small text-uppercase mb-2 text-primary"><i
+                            class="ti ti-message-report me-1"></i>Doctor's Guidance:</h6>
+                    {% if a.medical_guidance and a.medical_guidance != 'Pending' %}
+                    <p class="mb-0 text-dark">{{ a.medical_guidance }}</p>
+                    {% else %}
+                    <div class="d-flex align-items-center text-warning">
+                        <i class="ti ti-loader-2 me-2 rotate"></i>
+                        <span class="fw-semibold">Waiting for doctor's response...</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <div class="mb-3">
+            <i class="ti ti-calendar-off fs-10 text-muted"></i>
+        </div>
+        <h4 class="text-muted">You haven't booked any appointments yet.</h4>
+        <a href="{% url 'viewdoctor' %}" class="btn btn-primary mt-3">Find a Doctor</a>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .bg-primary-subtle {
+        background-color: rgba(93, 135, 255, 0.15);
+    }
+
+    .rotate {
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+{% endblock %}

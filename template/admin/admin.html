@@ -1,0 +1,304 @@
+{% extends 'admin/adminlayout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+  <!-- Stat Card 1 -->
+  <div class="col-md-6 col-lg-3 mb-4">
+    <div class="card border-0 shadow-sm overflow-hidden h-100"
+      style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);">
+      <div class="card-body p-4 position-relative">
+        <div class="position-absolute translate-middle-y top-50 end-0 me-n3 opacity-25">
+          <i class="ti ti-stethoscope fs-9 text-white"></i>
+        </div>
+        <div class="d-flex align-items-center mb-3">
+          <div class="bg-white bg-opacity-25 rounded-circle p-2 d-flex align-items-center justify-content-center">
+            <i class="ti ti-user-heart text-white fs-6"></i>
+          </div>
+        </div>
+        <h6 class="text-white text-opacity-75 fw-medium mb-1">Total Doctors</h6>
+        <h2 class="text-white fw-bolder mb-0">{{ doctor_count }}</h2>
+      </div>
+      <a href="{% url 'view_doctor' %}"
+        class="card-footer bg-black bg-opacity-10 border-0 text-white text-center py-2 text-decoration-none fs-2 hover-bg-opacity-20 transition-all">
+        View Directory <i class="ti ti-chevron-right ms-1"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- Stat Card 2 -->
+  <div class="col-md-6 col-lg-3 mb-4">
+    <div class="card border-0 shadow-sm overflow-hidden h-100"
+      style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+      <div class="card-body p-4 position-relative">
+        <div class="position-absolute translate-middle-y top-50 end-0 me-n3 opacity-25">
+          <i class="ti ti-friends fs-9 text-white"></i>
+        </div>
+        <div class="d-flex align-items-center mb-3">
+          <div class="bg-white bg-opacity-25 rounded-circle p-2 d-flex align-items-center justify-content-center">
+            <i class="ti ti-users text-white fs-6"></i>
+          </div>
+        </div>
+        <h6 class="text-white text-opacity-75 fw-medium mb-1">Registered Patients</h6>
+        <h2 class="text-white fw-bolder mb-0">{{ patient_count }}</h2>
+      </div>
+      <a href="{% url 'p_display_patients' %}"
+        class="card-footer bg-black bg-opacity-10 border-0 text-white text-center py-2 text-decoration-none fs-2 hover-bg-opacity-20 transition-all">
+        Manage Patients <i class="ti ti-chevron-right ms-1"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- Stat Card 3 -->
+  <div class="col-md-6 col-lg-3 mb-4">
+    <div class="card border-0 shadow-sm overflow-hidden h-100"
+      style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+      <div class="card-body p-4 position-relative">
+        <div class="position-absolute translate-middle-y top-50 end-0 me-n3 opacity-25">
+          <i class="ti ti-virus fs-9 text-white"></i>
+        </div>
+        <div class="d-flex align-items-center mb-3">
+          <div class="bg-white bg-opacity-25 rounded-circle p-2 d-flex align-items-center justify-content-center">
+            <i class="ti ti-microscope text-white fs-6"></i>
+          </div>
+        </div>
+        <h6 class="text-white text-opacity-75 fw-medium mb-1">Skin Diseases</h6>
+        <h2 class="text-white fw-bolder mb-0">{{ disease_count }}</h2>
+      </div>
+      <a href="{% url 'd_display_disease' %}"
+        class="card-footer bg-black bg-opacity-10 border-0 text-white text-center py-2 text-decoration-none fs-2 hover-bg-opacity-20 transition-all">
+        Browse Registry <i class="ti ti-chevron-right ms-1"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- Stat Card 4 -->
+  <div class="col-md-6 col-lg-3 mb-4">
+    <div class="card border-0 shadow-sm overflow-hidden h-100"
+      style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+      <div class="card-body p-4 position-relative">
+        <div class="position-absolute translate-middle-y top-50 end-0 me-n3 opacity-25">
+          <i class="ti ti-messages fs-9 text-white"></i>
+        </div>
+        <div class="d-flex align-items-center mb-3">
+          <div class="bg-white bg-opacity-25 rounded-circle p-2 d-flex align-items-center justify-content-center">
+            <i class="ti ti-award text-white fs-6"></i>
+          </div>
+        </div>
+        <h6 class="text-white text-opacity-75 fw-medium mb-1">Total Feedbacks</h6>
+        <h2 class="text-white fw-bolder mb-0">{{ feedback_count }}</h2>
+      </div>
+      <a href="{% url 'view_feedback' %}"
+        class="card-footer bg-black bg-opacity-10 border-0 text-white text-center py-2 text-decoration-none fs-2 hover-bg-opacity-20 transition-all">
+        Read Reviews <i class="ti ti-chevron-right ms-1"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <!-- CNN Model Intelligence -->
+  <div class="col-lg-12">
+    <div class="card border-0 shadow-sm overflow-hidden mb-4 rounded-4"
+      style="background: #f8fafc; border: 1px solid #e2e8f0 !important;">
+      <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+          <i class="ti ti-brain text-primary fs-6"></i>
+          <h5 class="mb-0 fw-bold text-dark">CNN Core Intelligence</h5>
+        </div>
+        <span
+          class="badge bg-success-subtle text-success border border-success border-opacity-25 rounded-pill px-3">Live
+          Engine</span>
+      </div>
+      <div class="card-body p-0">
+        <div class="row g-0">
+          <div class="col-md-3 border-end">
+            <div class="p-4 text-center">
+              <h6 class="text-muted fs-2 text-uppercase fw-bold mb-2">Model Architecture</h6>
+              <h4 class="fw-bolder text-dark mb-0 text-primary">{{ model_stats.model_name }}</h4>
+            </div>
+          </div>
+          <div class="col-md-2 border-end">
+            <div class="p-4 text-center">
+              <h6 class="text-muted fs-2 text-uppercase fw-bold mb-2">Val. Accuracy</h6>
+              <h4 class="fw-bolder text-success mb-0">{{ model_stats.accuracy }}%</h4>
+            </div>
+          </div>
+          <div class="col-md-2 border-end">
+            <div class="p-4 text-center">
+              <h6 class="text-muted fs-2 text-uppercase fw-bold mb-2">Categorical Loss</h6>
+              <h4 class="fw-bolder text-danger mb-0">{{ model_stats.loss }}</h4>
+            </div>
+          </div>
+          <div class="col-md-3 border-end">
+            <div class="p-4 text-center">
+              <h6 class="text-muted fs-2 text-uppercase fw-bold mb-2">Training Dataset</h6>
+              <h4 class="fw-bolder text-dark mb-0 fs-3">{{ model_stats.dataset_used }}</h4>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="p-4 text-center">
+              <h6 class="text-muted fs-2 text-uppercase fw-bold mb-2">Last Trained</h6>
+              <h4 class="fw-bolder text-dark mb-0 fs-3">{{ model_stats.trained_on }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Weekly Stats section (restored from old dashboard settings) -->
+  <div class="col-lg-4 mb-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-white py-3 border-bottom">
+        <h5 class="mb-0 fw-bold text-dark">System Vitality</h5>
+        <p class="text-muted fs-2 mb-0">Platform usage overview</p>
+      </div>
+      <div class="card-body p-4">
+        <div class="d-flex align-items-center mb-4">
+          <div class="bg-primary-subtle text-primary p-3 rounded-circle me-3">
+            <i class="ti ti-user-plus fs-6"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h6 class="mb-0 fw-bold fs-3">Total Professionals</h6>
+            <span class="text-muted fs-2">Registered Medical Staff</span>
+          </div>
+          <div class="ms-auto text-end">
+            <span class="badge bg-primary text-white rounded-pill">{{ doctor_count }}</span>
+          </div>
+        </div>
+        <div class="d-flex align-items-center mb-4">
+          <div class="bg-success-subtle text-success p-3 rounded-circle me-3">
+            <i class="ti ti-heart-pulse fs-6"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h6 class="mb-0 fw-bold fs-3">Patient Intake</h6>
+            <span class="text-muted fs-2">Active records in database</span>
+          </div>
+          <div class="ms-auto text-end">
+            <span class="badge bg-success text-white rounded-pill">{{ patient_count }}</span>
+          </div>
+        </div>
+        <div class="d-flex align-items-center mb-4">
+          <div class="bg-amber-subtle text-warning p-3 rounded-circle me-3">
+            <i class="ti ti-dna fs-6"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h6 class="mb-0 fw-bold fs-3">Disease Registry</h6>
+            <span class="text-muted fs-2">Documented conditions</span>
+          </div>
+          <div class="ms-auto text-end">
+            <span class="badge bg-warning text-white rounded-pill">{{ disease_count }}</span>
+          </div>
+        </div>
+        <div class="d-flex align-items-center">
+          <div class="bg-danger-subtle text-danger p-3 rounded-circle me-3">
+            <i class="ti ti-message-square-check fs-6"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h6 class="mb-0 fw-bold fs-3">User Reviews</h6>
+            <span class="text-muted fs-2">Recent platform feedback</span>
+          </div>
+          <div class="ms-auto text-end">
+            <span class="badge bg-danger text-white rounded-pill">{{ feedback_count }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8 mb-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+        <h5 class="mb-0 fw-bold text-dark">Clinical Activity Insights</h5>
+        <div class="dropdown">
+          <button class="btn btn-light btn-sm rounded-pill px-3 py-1 border d-flex align-items-center gap-1 shadow-none"
+            type="button" data-bs-toggle="dropdown">
+            Quarterly <i class="ti ti-chevron-down fs-2"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg">
+            <li><a class="dropdown-item fs-3" href="#">Last 30 Days</a></li>
+            <li><a class="dropdown-item fs-3" href="#">Last 6 Months</a></li>
+            <li><a class="dropdown-item fs-3" href="#">Yearly</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="performance-chart" style="min-height: 250px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-primary-subtle {
+    background-color: rgba(99, 102, 241, 0.1) !important;
+    color: #6366f1 !important;
+  }
+
+  .bg-success-subtle {
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    color: #10b981 !important;
+  }
+
+  .bg-amber-subtle {
+    background-color: rgba(245, 158, 11, 0.1) !important;
+    color: #f59e0b !important;
+  }
+
+  .bg-danger-subtle {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    color: #ef4444 !important;
+  }
+
+  .transition-all {
+    transition: all 0.3s ease;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var options = {
+      series: [{
+        name: 'Patient Registrations',
+        data: [31, 40, 28, 51, 42, 109, 100]
+      }, {
+        name: 'Diagnoses',
+        data: [11, 32, 45, 32, 34, 52, 41]
+      }],
+      chart: {
+        height: 300,
+        type: 'area',
+        toolbar: { show: false },
+        fontFamily: 'Inter, sans-serif'
+      },
+      colors: ['#6366f1', '#10b981'],
+      dataLabels: { enabled: false },
+      stroke: { curve: 'smooth', width: 2 },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.45,
+          opacityTo: 0.05,
+          stops: [20, 100, 100, 100]
+        }
+      },
+      grid: { borderColor: '#f1f5f9' },
+      xaxis: {
+        categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        axisBorder: { show: false },
+        axisTicks: { show: false }
+      },
+      yaxis: { labels: { style: { colors: '#64748b' } } },
+      tooltip: { x: { format: 'HH:mm' } }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#performance-chart"), options);
+    chart.render();
+  });
+</script>
+
+{% endblock %}

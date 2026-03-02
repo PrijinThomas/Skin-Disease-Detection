@@ -1,0 +1,145 @@
+/* Medilab SkinCare AI - Professional Login Styles */
+
+:root {
+  --accent-color: #1977cc; /* Medilab Primary Blue */
+  --secondary-bg: #f1f7fc;
+  --text-main: #2c4964;
+  --text-muted: #444444;
+}
+
+body {
+  font-family: "Raleway", sans-serif;
+  background-color: var(--secondary-bg);
+  color: var(--text-muted);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 40px 0;
+  min-height: 100vh;
+}
+
+
+.login-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 0px 30px rgba(25, 119, 204, 0.1);
+  overflow: hidden;
+  max-width: 900px;
+  width: 95%;
+  border: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Left Section - Branding */
+.login-info {
+  background: var(--accent-color);
+  color: #fff;
+  padding: 60px 40px;
+  flex: 1 1 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-info h2 {
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.login-info p {
+  font-size: 15px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* Right Section - Form */
+.login-form-container {
+  padding: 60px 50px;
+  flex: 1 1 50%;
+  background: #fff;
+}
+
+.back-to-home {
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--accent-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.back-to-home:hover {
+  color: var(--text-main);
+  transform: translateX(-3px);
+}
+
+.login-form-container h3 {
+  font-weight: 700;
+  color: var(--text-main);
+  font-family: "Poppins", sans-serif;
+}
+
+/* Input Styling */
+.form-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-main);
+}
+
+.form-control {
+  border-radius: 5px;
+  padding: 12px 15px;
+  border: 1px solid #ddecfa;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: var(--accent-color);
+}
+
+.input-group-text {
+  background: transparent;
+  border-right: none;
+  color: var(--accent-color);
+  border-color: #ddecfa;
+}
+
+.password-group input {
+  border-left: none;
+}
+
+/* Buttons */
+.btn-login {
+  background: var(--accent-color);
+  border: 0;
+  padding: 12px 35px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+  width: 100%;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.btn-login:hover {
+  background: #1c84e3;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(25, 119, 204, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .login-info {
+    display: none;
+  }
+  .login-form-container {
+    padding: 40px 30px;
+  }
+}
